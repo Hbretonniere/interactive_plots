@@ -1,28 +1,29 @@
 # In this Notebook  : 
-We are going define classes to have a cleaner implementationa and do more complex tasks with the plots.
+We are going define classes to have a cleaner implementation and do more complex tasks with the plots.
 We will have a usefull use of the interaction.
 
 
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
+%matplotlib notebook
 ```
 
 ###  Class
-I define a **class** so that the interaction is done best. doing so, we will be able to **store information**, and do backward actions one which we've done before.
+We first define a **class** for the interaction to be cleaner. Doing so, we will be able to **store information**, and do backward actions on the ones which we've done before.
 
-I just declare the class, **initialize** it and define a call **function**. The **arguemnt** of the class are just blank figure and axes (in this notebook I use **subplots** instead of just figure, which allows more complex plots. (You just need to know that the figure is the canvas, and the axes are plots inside the canvas.)
-During the initialisation, we make the figure and the axes a property of the class (`self`), we plot the random plot we used before (see tutorial 1), and we create a empty list, which will store the points we add while clicking.
+We just declare the class, **initialize** it (`__init__`) and define a `__call__` **function**. The **arguments** of the class are just a blank figure and an axe (in this notebook I use matplotlib **subplots** instead of just a figure, which allows more complex plots. (You just need to know that the figure is the canvas, and the axes are the plots inside the canvas.)
 
-The call funciton will be called each time we click : it's the equivalent of the function we created in tutorial 1 defining what we wanted to do while interacting. 
+During the initialisation, we make the figure and the axes a property of the class (`self`), we plot the random plot we used before (see tutorial 1), and we create an empty list (`self.points`), which will store the points we add while clicking. We also link the interactive canvas to a press button action, as we used to. The only difference is that we don't link it to a specific function, but to `self`, which means the `__call__` function.
 
-Here, I kept the drawing color interaction. But now that we can store the added points, the left click (or `ctr` click) will **remove the latest drown point** ! 
+The call function will be called each time we click : it's the equivalent of the function we created in tutorial 1 defining what we wanted to do while interacting. 
+
+Here, I kept the drawing color interaction. But now that we can store the added points, the left click (or `ctrl` click) will **remove the latest drown point** !
 
 # Try it :
 
 
 ```python
-%matplotlib notebook
 class Interact:
     def __init__(self, fig, ax):
         self.ax = ax
@@ -60,7 +61,7 @@ interact = Interact(fig, ax)
 
 Ok, now that we have the basis and a clean way to work, let's have our first usefull interactive plot.
 
-I propose to have a 2D plot of a catalogue (let's play with galaxies, but you can use any table with more than 2 columns). The idea is to have a scatter plots of two of the parameters, and to print the values of the other when clicking to the point of interest.
+We are going to plot a 2D catalogue (let's play with galaxies, but you can use any table with more than 2 columns). The idea is to have a scatter plot of two of the parameters, and to print the values of an other parameter when clicking to the point of interest.
 
 First, lets import the data : 
 
@@ -69,12 +70,14 @@ First, lets import the data :
 cat = np.load('../data/Galaxy_catalogue.npy', allow_pickle=True).item()
 ```
 
-The catalogue is now stored in `cat`. It's a simple dictionnary containing 300 galaxies. For each galaxy(rows), we have 4 parameters (columns) : the magnitude `mag`, the radius and the ellipticity.
+The catalogue is now stored in `cat`. It's a simple dictionnary containing 300 galaxies. For each galaxy (rows), we have 4 parameters (columns) : the magnitude `mag`, the radius and the ellipticity. The magnitude is an indicator of the brightness of a galaxy.
 
-To do what we want, we need first a function to recognize the data point we are clicking. Don't look to much at the function, it's not the point of the notebook. Just for you to know, the function return the data point the closest to any position on a graph. When we will be clicking, we will not necessarly need to click exactly on the point, this function will do the job for us. In addition, it returns the index of the corresponding data point, so we can print the other parameters of the galaxy
+To do what we want, we first need a function to recognize the data point we are clicking. Don't look to much at the function, it's not the point of the notebook. 
+Just for you to know, the function returns the closest data point to a clicked position on a graph. We will not necessarly need to click exactly on the point, this function will do the job for us. In addition, it returns the index of the corresponding data point, so we can print the other parameters of the galaxy.
 
 
 ```python
+from scipy.spatial import KDTree
 def find_closest_point(coords, cat, p1, p2):
     searching_for = np.zeros((1, 2))
     searching_for[0, 0] = coords[0]
@@ -85,19 +88,17 @@ def find_closest_point(coords, cat, p1, p2):
     searching_in[:, 1] = cat[p2]
     _, match_index = KDTree(searching_in).query(searching_for)
     closestx, closesty = searching_in[match_index][0]
+
     return match_index[0], closestx, closesty
 ```
 
 # New Interaction !
-Well let's do it ! The initialisation plot the radii of the galaxies wrt to their magnitude. Each time you'll click on the plot, the closest corresponding galaxy will be found, and its ellipticity will be printed !
+Well let's do it ! The initialisation plots the radii of the galaxies wrt to their magnitude. Each time you'll click on the plot, the closest corresponding galaxy will be found, and its ellipticity will be printed !
 
 # Try it :
 
 
 ```python
-%matplotlib notebook
-from scipy.spatial import KDTree
-
 class Explore_catalogue:
     def __init__(self, fig, ax, cat, param1='mag', param2='radius', param3='ellipticity'):
         self.ax = ax
@@ -123,9 +124,9 @@ interact = Explore_catalogue(fig, ax, cat)
 ```
 
 # Can be useful while exploring catalogs right ?
-Well, of course you could have colorcoded the ellipitcity, but you can always do that and use the interaction to print a 4th parameter !
+Well, of course you could have colorcode the ellipitcity, but you can always do that and use the interaction to print a 4th parameter !
 
-Let's add a cool behavior : I want to plot the galaxy of the clicked point next to the scatter plot. Here I'll just use a really toy (and dirty)model to create ''galaxies.....'' parameterized by the magnitude, the radius and ellipticity. What can be cool, with exactly the same code, is to show the images if you have the corresponfing galaxies to your catalogue !
+Let's add a cool behavior : I want to plot the galaxy of the clicked point next to the scatter plot. Here I'll just use a overly simple toy model to create galaxies (galaxies ?? I doubt it... Don't look at the code please...) parameterized by the magnitude, the radius and ellipticity. What can be cool, with exactly the same code, is to show the images if you have the corresponfing galaxies to your catalogue !
 
 Final thing : If you left click anywhere in the plot, it will create a new galaxy with the clicked mag and radius, and a random ellipticity.
 
@@ -152,9 +153,6 @@ def gaussian_model(mag, rad, ell):
 
 
 ```python
-%matplotlib notebook
-from scipy.spatial import KDTree
-
 class Explore_catalogue:
     def __init__(self, fig, ax, cat, param1='mag', param2='radius', param3='ellipticity'):
         self.plot_cat = ax[0]
@@ -165,7 +163,7 @@ class Explore_catalogue:
         self.param3 = param3
         self.cat = cat
         fig.canvas.mpl_connect('button_press_event', self)
-        self.plot_cat.scatter(cat[param1], cat[param2])
+        self.plot_cat.scatter(cat[param1], cat[param2], s=5)
 
     def __call__(self, event):
         click_x = event.xdata
@@ -173,9 +171,11 @@ class Explore_catalogue:
         
         if event.button == 1:
             match_index, closest_x, closest_y = find_closest_point((click_x, click_y), self.cat, self.param1, self.param2)
+            
             self.plot_cat.set_title(f"clicked point : ({click_x:.2f}, ({click_y:.2f}) \n "+
                               f"closest point : ({closest_x:.2f}, {closest_y:.2f}) \n"+
                              f"corresponding ellipticity:{cat[self.param3][match_index]:.2f}")
+            
             self.image.imshow(gaussian_model(self.cat['mag'][match_index], self.cat['radius'][match_index], self.cat['ellipticity'][match_index]))
         
         if event.button == 3:
@@ -185,15 +185,5 @@ class Explore_catalogue:
 
 fig, ax = plt.subplots(1, 2, figsize=(7, 3))
 interact = Explore_catalogue(fig, ax, cat)
-
-```
-
-
-```python
-
-```
-
-
-```python
 
 ```
