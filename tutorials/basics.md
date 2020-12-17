@@ -19,6 +19,8 @@ plt.figure(figsize=(5, 5))
 plt.scatter(np.random.uniform(0, 10, 10), np.random.uniform(0, 10, 10))
 ```
 
+### Note that sometimes the figure is to big. If so, you can reduce it by dragging the bottom left corner of the plot to the center.
+
 
 ```python
 %matplotlib notebook
@@ -26,12 +28,12 @@ plt.figure(figsize=(5, 5))
 plt.scatter(np.random.uniform(0, 10, 10), np.random.uniform(0, 10, 10));
 ```
 
-With the plot above, you should be able to have a **first interaction**, like **zooming**, (by drawing a zooming arena using the square button below the figure). You can also see that the **current position** of the mouse is printed in the botton right corner.
+With the plot above, you should be able to have a **first interaction**, like **zooming**, (by drawing a zooming arena using the square button below the figure). You can also see that the **current position** of the mouse is printed in the bottom right corner.
 
-Ok that's nice, but we want more interactive plots, in the sense where you can link clicks on the plot to predetrmined actions.
+Ok that's nice, but we want more interactive plots, in the sense where you can link clicks on the plot to predetermined actions.
 
 ## Define a clicking interaction function
-Let's understand a bit how the event class work. First we define the **action we want to do when we click on the plot** : it's the `do_smthg_when_I_click` function. It takes in argument a single argument, called `event`. event is a matplotlib class, which will store information about your mouse, like it position, the clicks, etc. Look inside the function. It has two interesting attributes : `xdata` and `ydata`. It's the **position of the mouse**, in graphic coordinates. Because matplotlib does not support interactive printing, I just *print* the clicked coordinates as the title of the figure. (`:.2f` is just here to limit the number of decimals)
+Let's understand a bit how the event class work. First we define the **action we want to do when we click on the plot** : it's the `do_smthg_when_I_click` function. It takes in argument a single argument, called `event`. `event` is a matplotlib class, which will store information about your mouse, like its position, the clicks, etc. Look inside the function. It has two interesting attributes : `xdata` and `ydata`. It's the **position of the mouse**, in graphic coordinates. Because matplotlib does not support interactive printing, I just *print* the clicked coordinates as the title of the figure. (`:.2f` is just here to limit the number of decimals)
 
 
 ```python
@@ -41,7 +43,7 @@ def do_smth_when_I_click(event):
     plt.title(f"I'm clicking on : (x, y) = ({click_x:.2f}, {click_y:.2f})")
 ```
 
-Now, I need to call this function, and to **link** the `event` to a specific plot. This is done by using the properties of $\texttt{Matplotlib}$ figures, ie `.canevas` and `.mpl_connect`. The latest allows to connect a user mouse behavior (here `button_press_event`) to the function we want (here `do_smthg_when_I_click`).
+Now, I need to call this function, and to **link** the `event` to a specific plot. This is done by using the properties of $\texttt{Matplotlib}$ figures, ie `.canevas` and `.mpl_connect`. The latter allows to connect a user mouse behavior (here `button_press_event`) to the function we want (here `do_smthg_when_I_click`).
 So now, our random scatter is plotted on the figure called `fig`, which is made interactive thanks to `fig.canvas.mpl_connect`.
 ## Try it : 
 you should see the title of the figure evolve when clicking on the plot.
@@ -77,7 +79,7 @@ fig.canvas.mpl_connect('button_press_event', plot_new_points)
 
 ### That's pretty ! 
 
-Now, we'll continue our exploration with another interesting behaviour : `event` can also recognize the **difference between a righ click and a left click** (`ctrl click` should work if you don't have a mouse).
+Now, we'll continue our exploration with another interesting behaviour : `event` can also recognize the **difference between a right click and a left click** (`ctrl click` should work if you don't have a mouse).
 ### Try It ! 
 Right click and left click on the plot
 
@@ -105,9 +107,9 @@ fig.canvas.mpl_connect('button_press_event', plot_new_points)
 ```
 
 ### Look what we've done : 
-The type of click is stored in the `button` method of `event`. We have just changed the marker style depending if we are right clicking (`button = 1`) or left clicking(`button = 3`). We've also played a bit with the `xdata` method to change the color of the point regarding the position we clicked.
+The type of click is stored in the `button` method of `event`. We have just changed the marker style depending if we are right clicking (`button == 1`) or left clicking (`button == 3`). We've also played a bit with the `xdata` method to change the color of the point regarding the position we clicked.
 
-There is other type of click (double clicking, scrolling up or scrolling down), but they are unfortunatly unavailable on jupyter notebook. We'll go trough them on other tutorials using ipython or any python interpreter.
+There are other types of click (double clicking, scrolling up or scrolling down), but they are unfortunatly unavailable on jupyter notebook. We'll go trough them on other tutorials using ipython or any python interpreter.
 
 ### Let's learn a last thing in this basic tutorial !
 We've seen earlier that the `canvas`' `mpl_connect` method has an `'button_press_event'` argument. Well, it can also detects other behaviours, like the release of a click, the movement onto the figure or even detects when you leave the figure.
@@ -140,16 +142,11 @@ fig.canvas.mpl_connect('figure_leave_event', leave_figure)
 ```
 
 ### Look what we've done : 
-We just need to link different fucntion to different arguments of the `mpl_connect` method : `'button_press_event'` linked to what we do when we click, `'motion_notify_event'` linked to what we do when we move, etc.
-You can also use `'figure_enter_event'` or even specify actions when we leave the axes of the plot with `'axes_enter_event'` and `'axes_enter_event'`
+We just need to link different functions to different arguments of the `mpl_connect` method : `'button_press_event'` linked to what we do when we click, `'motion_notify_event'` linked to what we do when we move, etc.
+We can also use `'figure_enter_event'` or even specify actions when we leave the axes of the plot with `'axes_enter_event'` and `'axes_enter_event'`
 
 ### Here we are for our first tutorial on matplotlib interactive events !
-You can see that with the type of button and the type of action, you can have a lot of combination and do whatever you want !
-In the next tutorial, we'll define classes that links different behaviour and can store in memory the actions to interact even more interestingly with the plots. (remove points, draw things, plots figures inside the plots...)
+You can see with the type of button and the type of action, you can have a lot of combination and do whatever you want !
+In the next tutorial, we'll define classes which link different behaviour and store in memory the actions to interact even more interestingly with the plots.
 
-### If you want to explore more the interactive plot yourself, be careful of one thing. If you have an error inside the action fucntion, it will not print in the Jupyter Cell, but in the terminal were you have open your jupyter notebook !
-
-
-```python
-
-```
+### If you want to explore more the interactive plot yourself, be careful of one thing. If you have an error inside the action function, it will not print in the Jupyter Cell, but in the terminal were you have open your jupyter notebook !
