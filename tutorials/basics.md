@@ -107,7 +107,7 @@ fig.canvas.mpl_connect('button_press_event', plot_new_points)
 ```
 
 ### Look what we've done : 
-The type of click is stored in the `button` method of `event`. We have just changed the marker style depending if we are right clicking (`button == 1`) or left clicking (`button == 3`). We've also played a bit with the `xdata` method to change the color of the point regarding the position we clicked.
+The type of click is stored in the `button` method of `event`. We have just changed the marker style depending if we are left clicking (`button == 1`) or right clicking (`button == 3`). We've also played a bit with the `xdata` method to change the color of the point regarding the position we clicked.
 
 There are other types of click (double clicking, scrolling up or scrolling down), but they are unfortunatly unavailable on jupyter notebook. We'll go trough them on other tutorials using ipython or any python interpreter.
 
@@ -125,6 +125,7 @@ def release(event):
 
 def moving(event):    
     plt.title("Woooow I'm mooving !")
+    prfefiefje
 
 def leave_figure(event):    
     plt.title("Woooops I've left the figure !")
@@ -150,3 +151,8 @@ You can see with the type of button and the type of action, you can have a lot o
 In the next tutorial, we'll define classes which link different behaviour and store in memory the actions to interact even more interestingly with the plots.
 
 ### If you want to explore more the interactive plot yourself, be careful of one thing. If you have an error inside the action function, it will not print in the Jupyter Cell, but in the terminal were you have open your jupyter notebook !
+
+
+```python
+
+```

@@ -18,7 +18,7 @@ During the initialisation, we make the figure and the axes a property of the cla
 
 The call function will be called each time we click : it's the equivalent of the function we created in tutorial 1 defining what we wanted to do while interacting. 
 
-Here, I kept the drawing color interaction. But now that we can store the added points, the left click (or `ctrl` click) will **remove the latest drown point** !
+Here, I kept the drawing color interaction. But now that we can store the added points, the right click (or `ctrl` click) will **remove the latest drown point** !
 
 # Try it :
 
@@ -185,5 +185,10 @@ class Explore_catalogue:
 
 fig, ax = plt.subplots(1, 2, figsize=(7, 3))
 interact = Explore_catalogue(fig, ax, cat)
+
+```
+
+
+```python
 
 ```
