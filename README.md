@@ -23,6 +23,7 @@ To launch a notebook, you must have Jupyter installed in your machine, and run t
 
 Note that the `.ipynb` files may not render in the github web page. If you really want to have a look at the notebooks before launching them through jupyter, I did a `.md` version that renders here (without the output of the cells though).
 
+To launch the `.py` files, use Ipython !
 I recommand to launch the notebooks in a browser (Firefox). For example, interactive plots do not work in VS Code.
 
 ## Requirements :
