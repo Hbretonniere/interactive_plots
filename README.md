@@ -8,6 +8,8 @@ I recommand to clone the project (do `git clone https://github.com/Hbretonniere/
 
 If not, you can always download 'by hand' the notebooks and read the paragraph below to run them.
 
+![gif](./data/galaxy.gif)
+
 # Tutorials :
 
 You have curretnly three tutorials on Jupyter Notebooks, and a script in .py
