@@ -10,11 +10,13 @@ If not, you can always download 'by hand' the notebooks and read the paragraph b
 
 # Tutorials :
 
-You have curretnly two tutorials on Jupyter Notebooks, and a script in .py
+You have curretnly three tutorials on Jupyter Notebooks, and a script in .py
 
 `basics.ipynb` teaches you the very basics of the matplotlib `event` method.
 `Tutorial_#2.ipynb` teaches you how to use the `event` with more complex but cleaner methods.
+`Tutorial_#3-ipywidget.ipynb` teaches you to use the ipywidget methods.
 `paint_with_plt.py` is a mini paint like wrapper with the `event` methods which allows you to do pixel art !
+
 ### Projet in construction !!
 
 ## Files
