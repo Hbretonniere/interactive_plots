@@ -8,7 +8,13 @@ I recommand to clone the project (do `git clone https://github.com/Hbretonniere/
 
 If not, you can always download 'by hand' the notebooks and read the paragraph below to run them.
 
+Example with the `event` interaction :
+
 ![gif](./data/galaxy_event.gif)
+
+Example with the `ipywidget` interaction :
+
+![gif](./data/galaxy_widget.gif)
 
 # Tutorials :
 
