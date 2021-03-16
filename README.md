@@ -8,7 +8,7 @@ I recommand to clone the project (do `git clone https://github.com/Hbretonniere/
 
 If not, you can always download 'by hand' the notebooks and read the paragraph below to run them.
 
-![gif](./data/galaxy.gif)
+![gif](./data/galaxy_event.gif)
 
 # Tutorials :
 
